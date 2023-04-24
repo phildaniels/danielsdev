@@ -1,11 +1,28 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import NavBar from '@/components/navbar';
+import { NextPage } from 'next';
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+const Home: NextPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex h-screen bg-gray-900 sm:flex-row flex-col">
+      <NavBar />
+      <div className="flex-1 p-10">
+        <h2 className="text-2xl font-bold text-white mb-4">
+          Welcome to My App
+        </h2>
+        <p className="text-white">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+          placerat, mi eget mattis tempor, lorem lectus viverra velit, sit amet
+          bibendum tellus sapien non lectus.
+        </p>
+      </div>
+    </main>
+  );
+};
+
+export default Home;
+
+{
+  /* <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
@@ -119,6 +136,5 @@ export default function Home() {
           </p>
         </a>
       </div>
-    </main>
-  )
+    </main> */
 }
