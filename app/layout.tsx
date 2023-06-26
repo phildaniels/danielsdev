@@ -1,3 +1,4 @@
+import NavBar from '@/components/navbar';
 import './globals.css';
 import { Roboto } from 'next/font/google';
 
@@ -18,7 +19,12 @@ export type RootLayoutProps = {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className="dark">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <main className="flex h-screen bg-gray-900 sm:flex-row flex-col">
+          <NavBar />
+          <div className="flex-1 p-10">{children}</div>
+        </main>
+      </body>
     </html>
   );
 };

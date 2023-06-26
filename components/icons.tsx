@@ -1,4 +1,5 @@
 import {
+  UserIcon,
   AlertTriangle,
   ArrowRight,
   Check,
@@ -10,11 +11,13 @@ import {
   File,
   FileText,
   HelpCircle,
+  Home,
   Image,
   Laptop,
   Loader2,
   LucideProps,
   Menu,
+  MessageCircle,
   Moon,
   MoreVertical,
   Pizza,
@@ -31,19 +34,8 @@ import {
 export type Icon = LucideIcon;
 
 export const Icons = {
-  logo: (props: LucideProps) => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <circle cx="12" cy="12" r="10"></circle>
-    </svg>
-  ),
+  home: Home,
+  message: MessageCircle,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -69,6 +61,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  about: UserIcon,
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
