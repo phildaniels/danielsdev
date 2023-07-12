@@ -1,0 +1,15 @@
+.transition-slow {
+    transition: all 1s ease-in-out 0s;
+}
+
+.transition-fast {
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.off-screen {
+    margin-left: -1000px;
+}
+
+.on-screen {
+    margin-left: 0;
+}

@@ -1,23 +1,22 @@
-// prettier-ignore
-"use client";
+'use client';
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
-import { Icons } from './icons';
-import '../styles/navbar.scss';
+import { Icons } from '../icons/icons';
+import './navbar.scss';
+import { AsideContext, AsideProps, NavBarContext, Pages } from './navbar.types';
+import { useTheme } from 'next-themes';
 
-type Pages = 'home' | 'about' | 'resume' | 'contact';
-
-type NavBarContext = {
-  toggleAsideVisible: () => void;
-  currentlySelectedSection: Pages;
-  setCurrentlySelectedSection: React.Dispatch<React.SetStateAction<Pages>>;
-};
-const NavBarContext = React.createContext({} as NavBarContext);
+const NavBarContext = React.createContext<NavBarContext>({
+  toggleAsideVisible: () => {},
+  currentlySelectedSection: 'home',
+  setCurrentlySelectedSection: () => {},
+});
 
 const NavBar: React.FC = () => {
   const [asideVisibleInMobile, setAsideVisibleInMobile] = useState(false);
   const [currentlySelectedSection, setCurrentlySelectedSection] =
     useState<Pages>('home');
+  const { theme } = useTheme();
   const navBarContextValue = {
     toggleAsideVisible: () =>
       setAsideVisibleInMobile((prevState) => !prevState),
@@ -32,19 +31,21 @@ const NavBar: React.FC = () => {
       <div className="sm:hidden flex-row justify-start flex w-full">
         {asideVisibleInMobile ? (
           <div
-            className="fixed inset-0 bg-black opacity-50 z-0"
+            className={`fixed inset-0 bg-${
+              theme === 'dark' ? 'black' : 'white'
+            } opacity-50 z-0`}
             onClick={() => setAsideVisibleInMobile(false)}
           ></div>
         ) : null}
         <div
           className={`flex h-full absolute transition-slow z-50 ${
-            asideVisibleInMobile ? 'on-screen' : 'off-screen'
+            asideVisibleInMobile ? 'on-screen-left' : 'off-screen'
           }`}
         >
           <Aside closeVisible={true} />
         </div>
         <div className="py-4 px-6 flex-1">
-          <ProfileAvatar />
+          <ProfileAvatarAndTitle />
         </div>
         <div className="py-4 px-6 justify-end flex-0 flex-shrink-1 hover:cursor-pointer">
           <Icons.menu
@@ -56,18 +57,17 @@ const NavBar: React.FC = () => {
   );
 };
 
-type AsideContext = {
-  currentlySelectedSection: Pages;
-  currentlyHoveredPage: Pages | null;
-  setCurrentlyHoveredPage: React.Dispatch<React.SetStateAction<Pages | null>>;
-  setCurrentlySelectedSection: React.Dispatch<React.SetStateAction<Pages>>;
-};
-const AsideContext = React.createContext({} as AsideContext);
-
-type AsideProps = {
-  closeVisible?: boolean;
-};
+const AsideContext = React.createContext<AsideContext>({
+  currentlySelectedSection: 'home',
+  currentlyHoveredPage: null,
+  setCurrentlyHoveredPage: () => {},
+  setCurrentlySelectedSection: () => {},
+  toggleAsideVisible: () => {},
+});
 const Aside: React.FC<AsideProps> = ({ closeVisible }) => {
+  const { theme } = useTheme();
+  const textColor = theme === 'dark' ? 'text-white' : 'text-black';
+  const backgroundColor = theme === 'dark' ? 'bg-gray-800' : 'bg-white';
   const {
     toggleAsideVisible,
     currentlySelectedSection,
@@ -80,20 +80,29 @@ const Aside: React.FC<AsideProps> = ({ closeVisible }) => {
     currentlyHoveredPage,
     setCurrentlyHoveredPage,
     setCurrentlySelectedSection,
+    toggleAsideVisible,
   };
   return (
     <AsideContext.Provider value={asideContextValue}>
-      <div className="flex flex-col bg-gray-800 justify-start h-full">
+      <div
+        className={`flex flex-col ${backgroundColor} justify-start h-full z-50 ${
+          theme === 'dark' ? 'shadow-lg' : 'shadow-md'
+        }`}
+      >
         <div className="flex flex-row p-4">
           <div className="flex-1 flex-shrink-0">
-            <ProfileAvatar />
+            <ProfileAvatarAndTitle />
           </div>
           <div
             className={`flex-0 flex-shrink-1 hover:cursor-pointer ${
               closeVisible ? '' : 'hidden'
             }`}
           >
-            <div className="p-2 bg-gray-700 rounded-full">
+            <div
+              className={`p-2 bg-gray-${
+                theme === 'dark' ? '700' : '100'
+              } rounded-full`}
+            >
               <Icons.close
                 onClick={() => {
                   if (closeVisible) {
@@ -106,7 +115,7 @@ const Aside: React.FC<AsideProps> = ({ closeVisible }) => {
         </div>
         <Divider />
         <div className="px-6">
-          <ul className="text-white">
+          <ul className={textColor}>
             <NavigationListItem
               icon={<Icons.home />}
               text="Home"
@@ -116,13 +125,13 @@ const Aside: React.FC<AsideProps> = ({ closeVisible }) => {
             <NavigationListItem
               icon={<Icons.about />}
               text="About"
-              href="/"
+              href="/about"
               page="about"
             />
             <NavigationListItem
               icon={<Icons.message />}
               text="Contact"
-              href="/"
+              href="/contact"
               page="contact"
             />
           </ul>
@@ -145,11 +154,14 @@ const NavigationListItem: React.FC<NavigationListItemProps> = ({
   page,
   href,
 }) => {
+  const { theme } = useTheme();
+  const textColor = theme === 'dark' ? 'text-white' : 'text-black';
   const {
     currentlySelectedSection,
     currentlyHoveredPage,
     setCurrentlyHoveredPage,
     setCurrentlySelectedSection,
+    toggleAsideVisible,
   } = useContext(AsideContext);
   return (
     <li
@@ -158,7 +170,7 @@ const NavigationListItem: React.FC<NavigationListItemProps> = ({
           ? 'text-blue-500'
           : currentlyHoveredPage != null && currentlyHoveredPage !== page
           ? 'text-gray-400'
-          : 'text-white'
+          : textColor
       }`}
       onMouseEnter={() => {
         setCurrentlyHoveredPage(page);
@@ -169,34 +181,41 @@ const NavigationListItem: React.FC<NavigationListItemProps> = ({
       onClick={() => {
         setCurrentlyHoveredPage(null);
         setCurrentlySelectedSection(page);
+        toggleAsideVisible();
       }}
     >
-      <div className="flex-shrink">{icon}</div>
-      <div className="flex-1 mx-2">
-        <div>{text}</div>
-      </div>
+      <Link href={href} className="flex flex-row">
+        <div className="flex-shrink">{icon}</div>
+        <div className="flex-1 mx-2">
+          <div>{text}</div>
+        </div>
+      </Link>
     </li>
   );
 };
 
-const Divider = () => (
+const Divider: React.FC = () => (
   <div className="flex flex-row justify-center">
     <div className="w-4/5 border-b border-gray-700"></div>
   </div>
 );
 
-const ProfileAvatar: React.FC = () => (
-  <div className="flex flex-row">
-    <img
-      src="https://media.licdn.com/dms/image/C5603AQEzqcgNui7AlQ/profile-displayphoto-shrink_800_800/0/1616639874167?e=1687996800&v=beta&t=auYAesIXtN4h_w4_P8fBomq2y_AEGF24BKsmPXcoAZY"
-      className="rounded-full w-16 h-16 flex-shrink-1 align-middle"
-    />
-    <div className="flex flex-col self-center px-4">
-      <h1 className="text-xl font-bold text-white">Phil Daniels</h1>
-      <h4>
-        <i>Software Engineer and Architect</i>
-      </h4>
+const ProfileAvatarAndTitle: React.FC = () => {
+  const { theme, setTheme } = useTheme();
+  const textColor = theme === 'dark' ? 'text-white' : 'text-black';
+  return (
+    <div className="flex flex-row">
+      <img
+        src="https://avatars.githubusercontent.com/u/11820265?v=4"
+        className="rounded-full w-16 h-16 flex-shrink-1 align-middle"
+      />
+      <div className="flex flex-col self-center px-4">
+        <h1 className={`text-xl font-bold ${textColor}`}>Phil Daniels</h1>
+        <h4>
+          <i className={textColor}>Software Engineer and Architect</i>
+        </h4>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 export default NavBar;

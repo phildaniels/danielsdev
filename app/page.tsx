@@ -1,12 +1,16 @@
-// prettier-ignore
-"use client";
+'use client';
 import { NextPage } from 'next';
+import { useTheme } from 'next-themes';
 import Typist from 'react-typist-component';
 
 const Home: NextPage = () => {
+  const { theme } = useTheme();
+  const textColor = theme === 'dark' ? 'text-white' : 'text-black';
   return (
     <>
-      <h2 className="text-2xl font-bold text-white mb-4">Welcome to My App</h2>
+      <h2 className={`text-2xl font-bold mb-4 ${textColor}`}>
+        Welcome to My App
+      </h2>
       <h2>I am a&nbsp;</h2>
       <TypistComponent />
     </>
@@ -18,6 +22,7 @@ const TypistComponent = () => (
     onTypingDone={() => console.log('done')}
     typingDelay={100}
     loop={true}
+    cursor={<TypistCursorComponent />}
   >
     <div className="blue-text">Software Engineer</div>
     <Typist.Delay ms={1000} />
