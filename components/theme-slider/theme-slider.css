@@ -1,0 +1,287 @@
+.slider {
+  cursor: pointer;
+  height: 120px;
+  width: 280px;
+  border-radius: 5em;
+  box-shadow: inset 0px 4px 10px 6px rgba(40, 40, 40, 0.95);
+  overflow: hidden;
+  position: relative;
+  background: #3898d9;
+  transition: background 0.45s ease-in-out;
+  transform: scale(0.24, 0.25);
+}
+
+.slider.night {
+  background: rgb(30, 30, 30);
+}
+
+.slideable-area {
+  height: 100%;
+  width: calc(100% - 32px);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sphere {
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+  position: relative;
+  transition: right 0.5s ease-out;
+  right: 0;
+}
+
+.sphere.night {
+  right: -60%;
+}
+
+.sphere-bg-wrapper {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sun {
+  background: orange;
+  box-shadow: inset -2px -6px 5px #888;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.moon {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  background: rgb(185, 185, 185);
+  position: absolute;
+  top: 0;
+  right: -100%;
+  opacity: 0;
+  transition: all 0.25s ease-out;
+  transition-delay: 0.1s;
+  box-shadow: inset -2px -6px 5px #777;
+}
+
+.moon.night {
+  right: 0;
+  opacity: 1;
+}
+
+.glow {
+  background: rgba(230, 230, 230, 0.15);
+  position: absolute;
+  top: 0;
+}
+
+.glow:nth-child(2) {
+  transform: scale(1.8);
+}
+
+.glow:nth-child(3) {
+  transform: scale(2.5);
+}
+
+.glow:nth-child(4) {
+  transform: scale(3.2);
+}
+
+.stars {
+  position: absolute;
+  top: -50%;
+  opacity: 0;
+  transition: top 0.3s ease-in, opacity 0.1s ease-in;
+}
+
+.stars.active {
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  top: 0;
+}
+
+.star::after {
+  background: rgba(230, 230, 230, 1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: absolute;
+  content: '\2726';
+}
+
+.star:nth-child(1)::after {
+  top: 25px;
+  left: 130px;
+  font-size: 1.5rem;
+}
+
+.star:nth-child(2)::after {
+  top: 15px;
+  left: 60px;
+  font-size: 1.7rem;
+}
+
+.star:nth-child(3)::after {
+  top: 30px;
+  left: 30px;
+  font-size: 0.8rem;
+}
+
+.star:nth-child(4)::after {
+  top: 60px;
+  left: 60px;
+  font-size: 0.8rem;
+}
+
+.star:nth-child(5)::after {
+  top: 80px;
+  left: 38px;
+  font-size: 0.5rem;
+}
+
+.star:nth-child(6)::after {
+  top: 85px;
+  left: 70px;
+  font-size: 0.5rem;
+}
+
+.star:nth-child(7)::after {
+  top: 76px;
+  left: 135px;
+  font-size: 0.6rem;
+}
+
+.star:nth-child(8)::after {
+  top: 72px;
+  left: 110px;
+  font-size: 0.4rem;
+}
+
+.moon-crater {
+  background-color: rgb(135, 135, 135);
+  border-radius: 20px;
+  position: absolute;
+}
+
+.moon-crater:nth-child(1) {
+  height: 36px;
+  width: 36px;
+  top: 42px;
+  left: 20px;
+}
+
+.moon-crater:nth-child(2) {
+  height: 20px;
+  width: 20px;
+  top: 12px;
+  left: 42px;
+}
+
+.moon-crater:nth-child(3) {
+  height: 22px;
+  width: 22px;
+  top: 52px;
+  left: 66px;
+}
+
+.clouds {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  transition: top 0.45s ease-out;
+}
+
+.clouds.active {
+  top: 125px;
+}
+
+.cloud-piece {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.cloud-back,
+.cloud-front {
+  height: inherit;
+  width: inherit;
+  position: absolute;
+}
+
+.cloud-back {
+  opacity: 0.7;
+}
+
+.cloud-back .cloud-piece {
+  background-color: rgb(240, 240, 240);
+}
+
+.cloud-back .cloud-piece:nth-child(1) {
+  clip-path: ellipse(3rem 3rem);
+  right: -149px;
+  top: -25px;
+}
+
+.cloud-back .cloud-piece:nth-child(2) {
+  clip-path: ellipse(3rem 3rem);
+  right: -104px;
+  top: 27px;
+}
+
+.cloud-back .cloud-piece:nth-child(3) {
+  clip-path: ellipse(2.5rem 2.5rem);
+  right: -48px;
+  top: 46px;
+}
+
+.cloud-back .cloud-piece:nth-child(4) {
+  clip-path: ellipse(3.5rem 3.5rem);
+  right: 2px;
+  top: 73px;
+}
+
+.cloud-back .cloud-piece:nth-child(5) {
+  clip-path: ellipse(2.8rem 2.8rem);
+  right: 70px;
+  top: 77px;
+}
+
+.cloud-front .cloud-piece {
+  background-color: rgb(255, 255, 255);
+}
+
+.cloud-front .cloud-piece:nth-child(1) {
+  clip-path: ellipse(3rem 3rem);
+  right: -155px;
+  top: 12px;
+}
+
+.cloud-front .cloud-piece:nth-child(2) {
+  clip-path: ellipse(3rem 3rem);
+  right: -108px;
+  top: 54px;
+}
+
+.cloud-front .cloud-piece:nth-child(3) {
+  clip-path: ellipse(2.5rem 2.5rem);
+  right: -48px;
+  top: 72px;
+}
+
+.cloud-front .cloud-piece:nth-child(4) {
+  clip-path: ellipse(3.5rem 3.5rem);
+  right: 13px;
+  top: 91px;
+}
+
+.cloud-front .cloud-piece:nth-child(5) {
+  clip-path: ellipse(2.8rem 2.8rem);
+  right: 60px;
+  top: 99px;
+}
