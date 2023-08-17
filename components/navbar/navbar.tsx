@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Icons } from '../icons/icons';
 import './navbar.scss';
 import { AsideContext, AsideProps, NavBarContext, Pages } from './navbar.types';
@@ -205,7 +206,8 @@ const ProfileAvatarAndTitle: React.FC = () => {
   const textColor = theme === 'dark' ? 'text-white' : 'text-black';
   return (
     <div className="flex flex-row">
-      <img
+      <Image
+        alt="profile picture"
         src="https://avatars.githubusercontent.com/u/11820265?v=4"
         className="rounded-full w-16 h-16 flex-shrink-1 align-middle"
       />
